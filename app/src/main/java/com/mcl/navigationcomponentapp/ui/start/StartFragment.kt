@@ -1,17 +1,16 @@
 package com.mcl.navigationcomponentapp.ui.start
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.mcl.navigationcomponentapp.R
+import com.mcl.navigationcomponentapp.extensions.navigateWithAnimations
 import kotlinx.android.synthetic.main.fragment_start.*
 
 class StartFragment : Fragment() {
-
-    private lateinit var listener: OnButtonClicked
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,24 +24,8 @@ class StartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         buttonNext.setOnClickListener {
-            listener.buttonClicked()
+          findNavController().navigateWithAnimations(R.id.action_startFragment_to_profileFragment)
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnButtonClicked){
-            listener = context
-        }
-    }
-
-    companion object{
-        fun newInstance(): StartFragment{
-            return StartFragment()
-        }
-    }
-
-    interface OnButtonClicked{
-        fun buttonClicked()
-    }
 }
