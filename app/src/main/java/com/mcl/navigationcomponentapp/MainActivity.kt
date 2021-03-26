@@ -1,23 +1,32 @@
 package com.mcl.navigationcomponentapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.mcl.navigationcomponentapp.ui.profile.ProfileFragment
-import com.mcl.navigationcomponentapp.ui.start.StartFragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), StartFragment.OnButtonClicked {
+class MainActivity : AppCompatActivity() {
+
+   private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.myContainer, StartFragment.newInstance())
-            .commit()
+        setSupportActionBar(myToolbar)
+
+        navController = findNavController(R.id.navHostFragment)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    override fun buttonClicked() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.myContainer, ProfileFragment.newInstance())
-            .commit()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
